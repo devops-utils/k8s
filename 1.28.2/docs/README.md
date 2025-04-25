@@ -21,11 +21,6 @@ kubeadm init --kubernetes-version=1.28.2 \
 --image-repository  registry.aliyuncs.com/google_containers \
 --pod-network-cidr=172.16.0.0/16
 
-kubeadm init --kubernetes-version=1.28.2 \
---apiserver-advertise-address=10.50.10.20  \
---image-repository  registry.aliyuncs.com/google_containers \
---pod-network-cidr=172.16.0.0/16
-
 kubeadm join 10.50.10.20:6443 --token rasuu7.xw06c5dkyjievo6j \
         --discovery-token-ca-cert-hash sha256:92adc2d9849b559af297f630785bb1681ca652beb0285c19a1175a23af9ea438
 
