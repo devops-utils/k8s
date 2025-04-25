@@ -1,0 +1,3 @@
+KUBELET_EXTRA_ARGS=--eviction-soft=nodefs.available<5%,imagefs.available<5% \
+--eviction-soft-grace-period=nodefs.available=2m,imagefs.available=2m \
+--eviction-max-pod-grace-period=30
