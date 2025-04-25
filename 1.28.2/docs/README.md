@@ -10,6 +10,12 @@ sudo systemctl restart kubelet
 journalctl -xeu kubelet
 ls /var/lib/kubelet/
 
+containerd config default > /etc/containerd/config.toml
+sandbox_image = "registry.aliyuncs.com/google_containers/pause:3.6"
+systemctl restart containerd.service
+
+kubeadm config images pull --image-repository  registry.aliyuncs.com/google_containers
+
 kubeadm init --kubernetes-version=1.28.2 \
 --apiserver-advertise-address=10.50.10.20  \
 --image-repository  registry.aliyuncs.com/google_containers \
