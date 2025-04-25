@@ -1,4 +1,63 @@
 ```shell
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+setenforce 0
+systemctl disable firewalld
+systemctl stop firewalld
+swapoff -a
+sed -i '/swap/d' /etc/fstab
+
+echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+echo "net.bridge.bridge-nf-call-ip6tables = 1" >> /etc/sysctl.conf
+echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf
+sysctl -p
+
+yum -y install yum-utils lvm2 device-mapper-persistent-data nfs-utils xfsprogs wget
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+yum -y install docker-ce docker-ce-cli containerd.io
+
+systemctl enable docker
+systemctl start docker
+
+cat /etc/docker/daemon.json
+vim /etc/docker/daemon.json
+{
+    "exec-opts": ["native.cgroupdriver=systemd"],
+    "log-driver": "json-file",
+    "log-opts": {
+    "max-size": "100m"
+    },
+    "storage-driver": "overlay2",
+    "registry-mirrors":[
+        "https://docker.1ms.run"
+    ]
+}
+
+vim /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
+  http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+
+yum install kubelet kubeadm kubectl
+
+systemctl daemon-reload
+systemctl restart docker
+
+systemctl enable kubelet
+systemctl start kubelet
+
+kubeadm reset
+
+cat k8s.env.sh
+echo export MASTER_IP=10.50.10.20 > k8s.env.sh
+echo export APISERVER_NAME=h1.corp.sz.gene.com >> k8s.env.sh
+
+sh k8s.env.sh
+
 sudo yum install docker-ce
 sudo yum install -y kubectl kubeadm kubelet
 
@@ -41,6 +100,11 @@ kubectl describe pods -n kube-system coredns-66f779496c-rwskb
 
 kubectl delete pod coredns-66f779496c-rwskb -n kube-system
 
+wget https://docs.projectcalico.org/manifests/calico.yaml
+ - name: CALICO_IPV4POOL_CIDR
+              value: "10.244.0.0/16"
+ - name: IP_AUTODETECTION_METHOD
+              value: "interface=eth0"
 kubectl apply -f calico.yaml
 
 kubectl get nodes h1.corp.sz.gene.com --show-labels
