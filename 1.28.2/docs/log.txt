@@ -1,0 +1,128 @@
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: I0424 21:56:17.235410     754 kubelet_node_status.go:294] Setting node annotation to enable volume controller attach/detach
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: E0424 21:56:17.265920     754 remote_image.go:94] ImageStatus failed: Id or size of image "registry.aliyuncs.com/google_containe
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: E0424 21:56:17.265948     754 kuberuntime_image.go:85] ImageStatus for image {"registry.aliyuncs.com/google_containers/kube-cont
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: E0424 21:56:17.265991     754 kuberuntime_manager.go:801] container start failed: ImageInspectError: Failed to inspect image "re
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: E0424 21:56:17.266021     754 pod_workers.go:191] Error syncing pod e4c02d0043e64d882d9b0f4abab03396 ("kube-controller-manager-h
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: I0424 21:56:17.279466     754 kubelet_node_status.go:294] Setting node annotation to enable volume controller attach/detach
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: I0424 21:56:17.307387     754 kubelet_node_status.go:70] Attempting to register node h1.corp.sz.gene.com
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: E0424 21:56:17.307933     754 kubelet_node_status.go:92] Unable to register node "h1.corp.sz.gene.com" with API server: Post htt
+Apr 24 21:56:17 h1.corp.sz.gene.com kubelet[754]: E0424 21:56:17.323848     754 kubelet.go:2268] node "h1.corp.sz.gene.com" not found
+
+registry.aliyuncs.com/google_containers/kube-proxy                            v1.18.2          0d40868643c6   5 years ago     117MB
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy                v1.18.2          0d40868643c6   5 years ago     117MB
+registry.aliyuncs.com/google_containers/kube-apiserver                        v1.18.2          6ed75ad404bd   5 years ago     173MB
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver            v1.18.2          6ed75ad404bd   5 years ago     173MB
+registry.aliyuncs.com/google_containers/kube-scheduler                        v1.18.2          a3099161e137   5 years ago     95.3MB
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler            v1.18.2          a3099161e137   5 years ago     95.3MB
+registry.aliyuncs.com/google_containers/kube-controller-manager               v1.18.2          ace0a8c17ba9   5 years ago     162MB
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager   v1.18.2          ace0a8c17ba9   5 years ago     162MB
+
+kubeadm config images pull --image-repository  registry.aliyuncs.com/google_containers
+I0424 22:20:17.992020   13860 version.go:256] remote version is much newer: v1.33.0; falling back to: stable-1.28
+[config/images] Pulled registry.aliyuncs.com/google_containers/kube-apiserver:v1.28.15
+[config/images] Pulled registry.aliyuncs.com/google_containers/kube-controller-manager:v1.28.15
+[config/images] Pulled registry.aliyuncs.com/google_containers/kube-scheduler:v1.28.15
+[config/images] Pulled registry.aliyuncs.com/google_containers/kube-proxy:v1.28.15
+[config/images] Pulled registry.aliyuncs.com/google_containers/pause:3.9
+[config/images] Pulled registry.aliyuncs.com/google_containers/etcd:3.5.9-0
+[config/images] Pulled registry.aliyuncs.com/google_containers/coredns:v1.10.1
+
+
+kubeadm init --kubernetes-version=1.28.2 --apiserver-advertise-address=10.50.10.20  --image-repository  registry.aliyuncs.com/google_containers --pod-network-cidr=172.16.0.0/16
+[init] Using Kubernetes version: v1.28.2
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+W0424 22:30:54.524106   19088 checks.go:835] detected that the sandbox image "registry.aliyuncs.com/google_containers/pause:3.6" of the container runtime is inconsistent with that used by kubeadm. It is recommended that using "registry.aliyuncs.com/google_containers/pause:3.9" as the CRI sandbox image.
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [h1.corp.sz.gene.com kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 10.50.10.20]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [h1.corp.sz.gene.com localhost] and IPs [10.50.10.20 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [h1.corp.sz.gene.com localhost] and IPs [10.50.10.20 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 5.002530 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node h1.corp.sz.gene.com as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node h1.corp.sz.gene.com as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+[bootstrap-token] Using token: rasuu7.xw06c5dkyjievo6j
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.50.10.20:6443 --token rasuu7.xw06c5dkyjievo6j \
+        --discovery-token-ca-cert-hash sha256:92adc2d9849b559af297f630785bb1681ca652beb0285c19a1175a23af9ea438
+
+kubeadm config images list --kubernetes-version=v1.28.2
+registry.k8s.io/kube-apiserver:v1.28.2
+registry.k8s.io/kube-controller-manager:v1.28.2
+registry.k8s.io/kube-scheduler:v1.28.2
+registry.k8s.io/kube-proxy:v1.28.2
+registry.k8s.io/pause:3.9
+registry.k8s.io/etcd:3.5.9-0
+registry.k8s.io/coredns/coredns:v1.10.1
+
+kubectl get pods -A
+NAMESPACE     NAME                                          READY   STATUS    RESTARTS   AGE
+kube-system   calico-kube-controllers-f45bddc87-66s7l       1/1     Running   0          36s
+kube-system   calico-node-gt4th                             1/1     Running   0          80s
+kube-system   calico-node-jf28h                             1/1     Running   0          80s
+kube-system   calico-node-tsx7g                             1/1     Running   0          80s
+kube-system   coredns-66f779496c-5pz8l                      1/1     Running   0          11h
+kube-system   coredns-66f779496c-h4kmq                      1/1     Running   0          11h
+kube-system   etcd-h1.corp.sz.gene.com                      1/1     Running   1          12h
+kube-system   kube-apiserver-h1.corp.sz.gene.com            1/1     Running   1          12h
+kube-system   kube-controller-manager-h1.corp.sz.gene.com   1/1     Running   1          12h
+kube-system   kube-proxy-27vgr                              1/1     Running   0          12h
+kube-system   kube-proxy-88xwp                              1/1     Running   0          12h
+kube-system   kube-proxy-cfzsr                              1/1     Running   0          12h
+kube-system   kube-scheduler-h1.corp.sz.gene.com            1/1     Running   1          12h
